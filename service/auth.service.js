@@ -7,8 +7,8 @@ const UserRepo = require("../repositories/user.repo");
 const register = async ({ email, password, name }) => {
     const existingUser = await UserRepo.findByEmail(email);
     if (existingUser) {
-        throw new Error("User already exists");
-    }
+        return ('User already exists' )
+     }
     const username = generateUsername(name);
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await UserRepo.createUser({
@@ -21,15 +21,17 @@ const register = async ({ email, password, name }) => {
     return user;
 };
 
-const login = async ({ email, password }) => {
+const login = async (email, password ) => {
+    if (!email || !password) {
+                return ("All Credentials Required" )
+    }
     const user = await UserRepo.findByEmail(email);
     if (!user) {
-        throw new Error("Invalid Credentials");
+        return ("Invalid Credentials" )
     }
-
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-        throw new Error("Invalid Credentials");
+        return ("Invalid Credentials" )
     }
 
     const accessToken = generateAccessToken(user);
@@ -43,19 +45,19 @@ const login = async ({ email, password }) => {
 
 const refresh = async (token) => {
     if (!token) {
-        throw new Error("Refresh token required");
+        return ("Refresh token required" ) 
     }
 
     let payload;
     try {
         payload = jwt.verify(token, process.env.JWT_SECRET);
     } catch (err) {
-        throw new Error("Invalid refresh token");
+        return ("Invalid refresh token")
     }
 
     const user = await UserRepo.findById(payload.id);
     if (!user) {
-        throw new Error("Invalid refresh token");
+        return ("Invalid refresh token")
     }
 
     return generateAccessToken(user);

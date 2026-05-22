@@ -1,48 +1,52 @@
 const {
   fetchMyProfile,
-  updateMyProfile,
-  DeleteMyProfile
+  DeleteMyProfile,
 } = require('../service/profile.service')
+const {
+ myProjects
+} = require('../service/project.service')
 
 const Profile = async (req, res) => {
   try {
     const { id, username } = req.user
     const response = await fetchMyProfile(id)
     if (!response) {
-      throw new Error('Something went wrong')
+      return  res.status(404).json({message: "Something went wrong"
+    })
     }
     return res.status(200).json({
       response
     })
   } catch (err) {
-    return res.status(500).json({ message: 'Internal Server Error' })
+    return res.status(500).json({ message: 'Internal Server Error', err})
   }
 }
 
-const UpdateProfile = async (req, res, next) => {
+const getMyProjects = async (req, res) => {
   try {
-    const response = await updateMyProfile(req.user.id, req.body)
+    const {id} = req.user;
+    const projects = await myProjects(id);
+    if(!projects) return {message:"Projects doesn't exist"}
     return res.status(200).json({
-      response
+      projects
     })
   } catch (err) {
-    next(err)
+     return res.status(500).json({ message: 'Internal Server Error', err})
   }
 }
 
 
-const DeleteProfile = async (req, res, next) => {
+const DeleteProfile = async (req, res) => {
   try {
-    console.log(req.user.id)
     const result = await DeleteMyProfile(req.user.id)
     if (!result.success) {
-      throw new Error('Not Found')
+     return { message: 'Internal Server Error' }
     }
     return res.status(200).json({
       message: result.message
     })
   } catch (err) {
-    next(err)
+    return res.status(500).json({ message: 'Internal Server Error' , err})
   }
 }
-module.exports = { Profile, UpdateProfile, DeleteProfile }
+module.exports = { Profile, DeleteProfile, getMyProjects}

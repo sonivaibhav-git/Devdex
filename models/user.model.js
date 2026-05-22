@@ -38,6 +38,7 @@ const userSchema = new mongoose.Schema(
       {
         type: String,
         trim: true,
+        lowercase:true
       },
     ],
 
@@ -48,17 +49,10 @@ const userSchema = new mongoose.Schema(
     followingCount: {
       type: Number,
       default: 0,
-    },
-    projectsCount: {
-      type: Number,
-      default: 0,
-    },
-    isPrivate:{
-      type:Boolean,
-      default:false
     }
   },
   { timestamps: true }
 );
+
 
 module.exports = mongoose.model("User", userSchema);

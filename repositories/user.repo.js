@@ -16,9 +16,6 @@ const findByUsername = (username) => {
     return User.findOne({ username }).select("-password");
 };
 
-const updateById = (id, updates) =>
-  User.findByIdAndUpdate(id, updates, {    returnDocument: "after", runValidators: true});
-
 const deleteMyId = (id)=>{
     return User.findByIdAndDelete(id)
 }
@@ -27,7 +24,6 @@ module.exports = {
     createUser,
     findByEmail,
     findById,
-    updateById,
     deleteMyId,
     findByUsername
 };

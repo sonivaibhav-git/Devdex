@@ -5,9 +5,18 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start": "npx nodemon app.js"
   },
-  "keywords":["mern", "portfolio", "nodejs", "express", "mongodb", "api","backend","projects"],
+  "keywords": [
+    "mern",
+    "portfolio",
+    "nodejs",
+    "express",
+    "mongodb",
+    "api",
+    "backend",
+    "projects"
+  ],
   "author": "Vaibhav Soni",
   "license": "ISC",
   "type": "commonjs",
@@ -19,6 +28,7 @@
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.6.1",
-    "nodemon": "^3.1.14"
+    "nodemon": "^3.1.14",
+    "slugify": "^1.6.9"
   }
 }
