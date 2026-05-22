@@ -1,7 +1,8 @@
 const {
   findById,
   findByEmail,
-  deleteMyId
+  deleteMyId,
+  addSkillsRepository
 } = require('../repositories/user.repo')
 const { countProjectsByCreator } = require('../repositories/project.repo')
 
@@ -30,4 +31,53 @@ const DeleteMyProfile = async id => {
   }
 }
 
-module.exports = { fetchMyProfile, DeleteMyProfile }
+const addSkillsService = async (userId, skills) => {
+
+    if (!skills) {
+        return {
+            status: 400,
+            message: "Skills required"
+        };
+    }
+
+    // HANDLE SINGLE STRING
+    if (typeof skills === "string") {
+        skills = [skills];
+    }
+
+    // VALIDATE ARRAY
+    if (!Array.isArray(skills)) {
+        return {
+            status: 400,
+            message: "Skills must be array"
+        };
+    }
+
+    // CLEAN DATA
+    const cleanedSkills = skills.map(skill =>
+        skill.trim().toLowerCase()
+    );
+    const updatedProfile = await addSkillsRepository(
+        userId,
+        cleanedSkills
+    );
+
+    if (!updatedProfile) {
+        return {
+            status: 404,
+            message: "Profile not found"
+        };
+    }
+
+    return {
+        status: 200,
+        message: "Skills added successfully",
+        profile: updatedProfile
+    };
+};
+
+module.exports = {
+    addSkillsService
+};
+
+module.exports = { fetchMyProfile, DeleteMyProfile,addSkillsService }
