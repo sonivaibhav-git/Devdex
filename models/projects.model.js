@@ -62,6 +62,27 @@ const projectSchema = new mongoose.Schema(
     savesCount: {
       type: Number,
       default: 0
+    },
+    liveLink: {
+      type: String,
+      index: { unique: true, sparse: true }
+    },
+    github: {
+      type: String,
+      index: { unique: true, sparse: true }
+    },
+     projectType: {
+        type: String,
+        enum: [
+            "standalone",
+            "problem_solution"
+        ],
+        default: "standalone"
+    },
+     linkedProblem: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Problem",
+        default: null
     }
   },
   { timestamps: true }

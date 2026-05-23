@@ -10,6 +10,17 @@ const { generateSlug } = require("../utils/slug.js");
 
 
 const createNewProject =async (data)=>{
+  const { technologies } = data
+
+  const normalizedTechnologies = Array.isArray(technologies)
+    ? technologies.map(tech => String(tech).trim()).filter(Boolean)
+    : typeof technologies === 'string'
+    ? technologies
+        .split(',')
+        .map(tech => tech.trim())
+        .filter(Boolean)
+    : []
+
             const project = await findProjectByTitle(data.title);
             if(project){
                 return {
@@ -18,7 +29,11 @@ const createNewProject =async (data)=>{
                 }
             }
             data.slug = generateSlug(data.title);
-            const newProject = await CreateProject(data);
+            
+            const newProject = await CreateProject({
+                ...data,
+                technologies: normalizedTechnologies
+            })
             if(!newProject){
                 return {
                     status:500,

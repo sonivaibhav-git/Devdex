@@ -10,7 +10,7 @@ const { countProjectsByCreator } = require('../repositories/project.repo')
 const fetchMyProfile = async userId => {
   const user = await findById(userId)
   if (!user) {
-    return "User doesn't exist"
+    return {message:"User already exists"}
   }
   const projectCount = await countProjectsByCreator(userId)
   return {
@@ -74,10 +74,6 @@ const addSkillsService = async (userId, skills) => {
         message: "Skills added successfully",
         profile: updatedProfile
     };
-};
-
-module.exports = {
-    addSkillsService
 };
 
 module.exports = { fetchMyProfile, DeleteMyProfile,addSkillsService }

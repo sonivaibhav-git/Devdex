@@ -18,12 +18,22 @@ const findProjectByTechnologies = (technologies)=>{
   return Project.find({technologies});
 }
 
-const deleteProject = (id)=>{
-    return Project.findByIdAndDelete(id)
+const deleteProject = async(id)=>{
+    return await Project.findByIdAndDelete(id)
 }
 const countProjectsByCreator = async (creatorId) => {
     return await Project.countDocuments({
         "creator.id": creatorId
+    });
+};
+const countSolutionByProblem = async (problemId) => {
+    return await Project.countDocuments({
+        "linkedProblem": problemId
+    });
+};
+const getSolutionByProblem = async (problemId) => {
+    return await Project.find({
+        "linkedProblem": problemId
     });
 };
 
@@ -35,5 +45,7 @@ module.exports = {
   findProject,
   findProjectByTechnologies,
   deleteProject,
-  countProjectsByCreator
+  countProjectsByCreator,
+  countSolutionByProblem,
+  getSolutionByProblem
 }
