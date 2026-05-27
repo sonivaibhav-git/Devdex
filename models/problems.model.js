@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const problemSchema = new mongoose.Schema({
-    problem: {
+    description: {
         type: String,
         required: true
     },

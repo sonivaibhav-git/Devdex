@@ -10,7 +10,7 @@ const { generateSlug } = require("../utils/slug.js");
 
 
 const createNewProject =async (data)=>{
-  const { technologies } = data
+  const {technologies } = data
 
   const normalizedTechnologies = Array.isArray(technologies)
     ? technologies.map(tech => String(tech).trim()).filter(Boolean)
@@ -20,7 +20,7 @@ const createNewProject =async (data)=>{
         .map(tech => tech.trim())
         .filter(Boolean)
     : []
-
+  
             const project = await findProjectByTitle(data.title);
             if(project){
                 return {

@@ -6,13 +6,17 @@ const {
 
 const register = async (req, res, next) => {
   try {
-    const { email, password } = req.body
-    if (!email || !password) {
+    const { email, password, name } = req.body
+    if (!email || !password || !name) {
       return res.status(400).json({ message: 'All Credentials Required' })
     }
     const user = await authService.register(req.body)
+    if (typeof user === 'string') {
+      return res.status(400).json({ message: user })
+    }
     res.status(201).json({
-      message: 'User registered successfully'
+      message: 'User registered successfully',
+      user
     })
   } catch (err) {
     next(err)

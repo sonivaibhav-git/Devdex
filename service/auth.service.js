@@ -1,70 +1,78 @@
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const { generateAccessToken, generateRefreshToken } = require("../utils/token.js");
-const {generateUsername} = require("../utils/usernameGenerator")
-const UserRepo = require("../repositories/user.repo");
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+const {
+  generateAccessToken,
+  generateRefreshToken
+} = require('../utils/token.js')
+const { generateUsername } = require('../utils/usernameGenerator')
+const UserRepo = require('../repositories/user.repo')
 
 const register = async ({ email, password, name }) => {
-    const existingUser = await UserRepo.findByEmail(email);
-    if (existingUser) {
-        return ('User already exists' )
-     }
-    const username = generateUsername(name);
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await UserRepo.createUser({
-        email,
-        password: hashedPassword,
-        username,
-        name,
-    });
+  if (!name) {
+    return 'Name is required'
+  }
 
-    return user;
-};
+  const existingUser = await UserRepo.findByEmail(email)
+  if (existingUser) {
+    return 'User already exists'
+  }
 
-const login = async (email, password ) => {
-    if (!email || !password) {
-                return ("All Credentials Required" )
-    }
-    const user = await UserRepo.findByEmail(email);
-    if (!user) {
-        return ("Invalid Credentials" )
-    }
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-        return ("Invalid Credentials" )
-    }
+  const username = generateUsername(name)
+  const hashedPassword = await bcrypt.hash(password, 10)
+  const user = await UserRepo.createUser({
+    email,
+    password: hashedPassword,
+    username,
+    name
+  })
 
-    const accessToken = generateAccessToken(user);
-    const refreshToken = generateRefreshToken(user);
-    return {
-        user,
-        accessToken,
-        refreshToken,
-    };
-};
+  return user
+}
 
-const refresh = async (token) => {
-    if (!token) {
-        return ("Refresh token required" ) 
-    }
+const login = async (email, password) => {
+  if (!email || !password) {
+    return 'All Credentials Required'
+  }
+  const user = await UserRepo.findByEmail(email)
+  if (!user) {
+    return 'Invalid Credentials'
+  }
+  const isMatch = await bcrypt.compare(password, user.password)
+  if (!isMatch) {
+    return 'Invalid Credentials'
+  }
 
-    let payload;
-    try {
-        payload = jwt.verify(token, process.env.JWT_SECRET);
-    } catch (err) {
-        return ("Invalid refresh token")
-    }
+  const accessToken = generateAccessToken(user)
+  const refreshToken = generateRefreshToken(user)
+  return {
+    user,
+    accessToken,
+    refreshToken
+  }
+}
 
-    const user = await UserRepo.findById(payload.id);
-    if (!user) {
-        return ("Invalid refresh token")
-    }
+const refresh = async token => {
+  if (!token) {
+    return 'Refresh token required'
+  }
 
-    return generateAccessToken(user);
-};
+  let payload
+  try {
+    payload = jwt.verify(token, process.env.JWT_SECRET)
+  } catch (err) {
+    return 'Invalid refresh token'
+  }
+
+  const user = await UserRepo.findById(payload.id)
+  if (!user) {
+    return 'Invalid refresh token'
+  }
+
+  return generateAccessToken(user)
+}
 
 module.exports = {
-    register,
-    login,
-    refresh,
-};
+  register,
+  login,
+  refresh
+}

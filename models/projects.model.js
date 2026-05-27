@@ -25,11 +25,6 @@ const projectSchema = new mongoose.Schema(
       type: String,
       required: true
     },
-    features: [
-      {
-        type: String
-      }
-    ],
     technologies: [
       {
         type: String,
@@ -53,15 +48,6 @@ const projectSchema = new mongoose.Schema(
       },
       username: String,
       profilePic: String
-    },
-    voteCount: {
-      type: Number,
-      default: 0,
-      index: true
-    },
-    savesCount: {
-      type: Number,
-      default: 0
     },
     liveLink: {
       type: String,

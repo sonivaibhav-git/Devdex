@@ -1,5 +1,5 @@
 {
-  "name": "projectportfolio",
+  "name": "Devdex",
   "version": "1.0.1",
   "description": "A visual platform for showcasing projects in a structured PSAT (Problem–Solution–Approach–Tech Stack) format, enabling developers and designers to present, explore, and understand work more efficiently.",
   "main": "app.js",
@@ -29,6 +29,7 @@
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.6.1",
     "nodemon": "^3.1.14",
-    "slugify": "^1.6.9"
+    "slugify": "^1.6.9",
+    "zod": "^4.4.3"
   }
 }
