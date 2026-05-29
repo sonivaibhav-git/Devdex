@@ -1,7 +1,7 @@
 const {
   fetchMyProfile,
   DeleteMyProfile,
-  addSkillsService
+  addTechnologiesService
 } = require('../service/profile.service')
 const { myProjects } = require('../service/project.service')
 
@@ -47,13 +47,13 @@ const DeleteProfile = async (req, res) => {
   }
 }
 
-const addSkills = async (req, res) => {
+const addTechnologies = async (req, res) => {
   try {
     const userId = req.user.id
   
-    const { skills } = req.body || {}
+    const { technologies } = req.body || {};
 
-    const result = await addSkillsService(userId, skills)
+    const result = await addTechnologiesService(userId, technologies)
 
     return res.status(result.status).json(result)
   } catch (error) {
@@ -63,4 +63,4 @@ const addSkills = async (req, res) => {
   }
 }
 
-module.exports = { Profile, DeleteProfile, getMyProjects, addSkills }
+module.exports = { Profile, DeleteProfile, getMyProjects, addTechnologies }

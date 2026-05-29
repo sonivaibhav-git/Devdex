@@ -13,9 +13,32 @@ const DeleteProblem = async(id)=>{
     return await Problem.findByIdAndDelete(id)
 }
 
+const SearchProblemsRepository = async (query, skip, limit) => {
+   return await Problem.find({
+      $text: {
+         $search: query
+      }
+   })
+   .skip(skip)
+   .limit(limit)
+   .sort({
+      score: {
+         $meta: "textScore"
+      }
+   })
+   .select({
+      score: {
+         $meta: "textScore"
+      }
+   });
+};
+
+
+
 module.exports = {
   CreateProblem,
   FindProblemById,
   FindAllProblem,
-  DeleteProblem
+  DeleteProblem,
+  SearchProblemsRepository
 }

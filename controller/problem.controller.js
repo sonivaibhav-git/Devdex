@@ -8,6 +8,7 @@ const {
 
 const ProblemCreate = async (req, res) => {
   try {
+    console.log(req.body)
     const problemData = {
       ...req.body,
       creator: {

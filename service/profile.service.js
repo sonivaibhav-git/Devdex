@@ -2,7 +2,7 @@ const {
   findById,
   findByEmail,
   deleteMyId,
-  addSkillsRepository
+  addTechnologiesRepository
 } = require('../repositories/user.repo')
 const { countProjectsByCreator } = require('../repositories/project.repo')
 
@@ -31,35 +31,35 @@ const DeleteMyProfile = async id => {
   }
 }
 
-const addSkillsService = async (userId, skills) => {
+const addTechnologiesService = async (userId, technologies) => {
 
-    if (!skills) {
+    if (!technologies) {
         return {
             status: 400,
-            message: "Skills required"
+            message: "technologies required"
         };
     }
 
     // HANDLE SINGLE STRING
-    if (typeof skills === "string") {
-        skills = [skills];
+    if (typeof technologies === "string") {
+        technologies = [technologies];
     }
 
     // VALIDATE ARRAY
-    if (!Array.isArray(skills)) {
+    if (!Array.isArray(technologies)) {
         return {
             status: 400,
-            message: "Skills must be array"
+            message: "technologies must be array"
         };
     }
 
     // CLEAN DATA
-    const cleanedSkills = skills.map(skill =>
-        skill.trim().toLowerCase()
+    const cleanedTechnologies = technologies.map(technology =>
+        technology.trim().toLowerCase()
     );
-    const updatedProfile = await addSkillsRepository(
+    const updatedProfile = await addTechnologiesRepository(
         userId,
-        cleanedSkills
+        cleanedTechnologies
     );
 
     if (!updatedProfile) {
@@ -71,9 +71,9 @@ const addSkillsService = async (userId, skills) => {
 
     return {
         status: 200,
-        message: "Skills added successfully",
+        message: "Technologies added successfully",
         profile: updatedProfile
     };
 };
 
-module.exports = { fetchMyProfile, DeleteMyProfile,addSkillsService }
+module.exports = { fetchMyProfile, DeleteMyProfile,addTechnologiesService }

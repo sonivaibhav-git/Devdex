@@ -28,6 +28,7 @@ const projectSchema = new mongoose.Schema(
     technologies: [
       {
         type: String,
+        lowercase:true,
         index: true
       }
     ],
@@ -79,7 +80,7 @@ projectSchema.index({
   title: 'text',
   problem: 'text',
   solution: 'text',
-  techStack: 'text'
+  technologies: 'text'
 })
 
 projectSchema.pre('save', async function () {

@@ -25,6 +25,7 @@ const userSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
+      index:true
     },
     bio: {
       type: String,
@@ -34,22 +35,15 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    skills: [
+    technologies: [
       {
         type: String,
         trim: true,
-        lowercase:true
+        lowercase:true,
+        index:true
       },
-    ],
-
-    followersCount: {
-      type: Number,
-      default: 0,
-    },
-    followingCount: {
-      type: Number,
-      default: 0,
-    }
+    ]
+    
   },
   { timestamps: true }
 );

@@ -1,4 +1,6 @@
-const { createNewProject, getProject ,getAllProjects ,DeleteProjectById} = require('../service/project.service')
+const { createNewProject, getProject 
+  // ,getAllProjects
+   ,DeleteProjectById} = require('../service/project.service')
 
 const addProject = async (req, res) => {
   try {
@@ -48,22 +50,22 @@ const getOneProject = async (req, res) => {
     })
   }
 }
-const allProject = async (req, res) => {
-  try {
-    const project = await getAllProjects(req.params.technology);
-     if(!project){
-      return res.status(404).json({message:"Project not found"})
-    }
-    return res.status(200).json({
-      message: project.message,
-      project: project.proj
-    })
-  } catch (err) {
-    return res.status(500).json({
-      message: 'Internal server error'
-    })
-  }
-}
+// const allProject = async (req, res) => {
+//   try {
+//     const project = await getAllProjects(req.params.technology);
+//      if(!project){
+//       return res.status(404).json({message:"Project not found"})
+//     }
+//     return res.status(200).json({
+//       message: project.message,
+//       project: project.proj
+//     })
+//   } catch (err) {
+//     return res.status(500).json({
+//       message: 'Internal server error'
+//     })
+//   }
+// }
 
 const delProject = async(req,res)=>{
   try{
@@ -80,10 +82,8 @@ const delProject = async(req,res)=>{
 }
 
 
-
-
 module.exports = {
-  allProject,
+  // allProject
   getOneProject,
   addProject,
   delProject

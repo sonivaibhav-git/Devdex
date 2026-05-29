@@ -20,13 +20,13 @@ const deleteMyId = id => {
   return User.findByIdAndDelete(id)
 }
 
-const addSkillsRepository = async (userId, skills) => {
+const addTechnologiesRepository = async (userId, technologies) => {
     return await User.findByIdAndUpdate(
       userId,
       {
         $addToSet: {
-          skills: {
-            $each: skills
+          technologies: {
+            $each: technologies
           }
         }
       },
@@ -43,5 +43,5 @@ module.exports = {
   findById,
   deleteMyId,
   findByUsername,
-  addSkillsRepository
+  addTechnologiesRepository
 }

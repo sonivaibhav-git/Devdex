@@ -3,8 +3,8 @@ const {
     findProjectByTitle,
     findProjectById,
     deleteProject,
-    findProject,
-    findProjectByTechnologies
+    findProject
+    // findProjectByTechnologies
 } = require("../repositories/project.repo.js");
 const { generateSlug } = require("../utils/slug.js");
 
@@ -51,31 +51,30 @@ const createNewProject =async (data)=>{
 const getProject = async(id)=>{
 
         const proj = await findProjectById(id);
-        if(!proj){
-            return{
-                status:404,
-                message:"Project not found"
-            }
-        }
+        if(!proj) return {
+            message:"Project not found"
+        };
         return {
-            status:200,
             message:"Project found",
             proj
         }
 }
-const getAllProjects = async(technologies)=>{
-        const proj = await findProjectByTechnologies(technologies);
-        if(!proj){
-            return{
-                message:"Project not found"
-            }
-        }
-        return {
-            status:200,
-            message:"Project found",
-            proj
-        }
-}
+// const getAllProjects = async(technologies)=>{
+//             const page = 1;
+//         const limit = 5;
+//         const proj = await findProjectByTechnologies(technologies,page, limit);
+
+//         if(!proj){
+//             return{
+//                 message:"Project not found"
+//             }
+//         }
+//         return {
+//             status:200,
+//             message:"Project found",
+//             proj
+//         }
+// }
 
 const DeleteProjectById = async (id) => {
     const user = await deleteProject(id)
@@ -103,4 +102,6 @@ const myProjects = async (id)=>{
     }
 }
 
-module.exports = { createNewProject,getAllProjects, getProject, DeleteProjectById ,myProjects}
+module.exports = { createNewProject,
+    // getAllProjects,
+     getProject, DeleteProjectById ,myProjects}
